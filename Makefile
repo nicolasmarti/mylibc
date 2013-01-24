@@ -4,10 +4,10 @@ LDFLAGS=
 EXEC=test.exe
 LIBS=basetype.o string.o
 
-PROVERS= alt-ergo #,zenon,z3,coqide
+PROVERS= alt-ergo,coq #,zenon,z3,coqide
 
 FRAMAC=frama-c
-FRAMACFLAGS=-wp -wp-rte -wp-warnings -wp-proof $(PROVERS) -wp-out proofs  #-wp-print
+FRAMACFLAGS=-wp -wp-rte -wp-warnings -wp-proof $(PROVERS) -wp-out proofs -wp-script proof.v  #-wp-print
 
 all: $(EXEC)
 
