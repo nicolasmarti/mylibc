@@ -2,10 +2,12 @@ CC=clang
 CFLAGS=
 LDFLAGS=
 EXEC=test.exe
-LIBS=string.o
+LIBS=basetype.o string.o
+
+PROVERS= alt-ergo #,zenon,z3,coqide
 
 FRAMAC=frama-c
-FRAMACFLAGS=-wp -wp-rte -wp-warnings
+FRAMACFLAGS=-wp -wp-rte -wp-warnings -wp-proof $(PROVERS) -wp-out proofs  #-wp-print
 
 all: $(EXEC)
 
@@ -32,3 +34,7 @@ all: $(EXEC)
 
 clean:
 	rm -Rf $(LIBS) $(EXEC)
+
+
+gui:
+	frama-c-gui $(FRAMACFLAGS) $1
