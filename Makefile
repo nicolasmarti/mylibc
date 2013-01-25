@@ -1,5 +1,5 @@
 CC=clang
-CFLAGS= --analyze
+CFLAGS= 
 LDFLAGS=
 EXEC=test.exe
 LIBS=basetype.o string.o
@@ -18,6 +18,8 @@ all: $(EXEC)
 	@echo "****************************************************"
 	@echo $<
 	@echo "****************************************************"
+	@clang --analyze $<
+	@echo "------------------------------------"
 	@$(FRAMAC) $(FRAMACFLAGS) $< -then -werror-no-no-unknown -werror -werror-no-external 
 	@echo "------------------------------------"
 	@$(CC) -c -o $@ $(CFLAGS) $<
@@ -27,6 +29,8 @@ all: $(EXEC)
 	@echo "****************************************************"
 	@echo $<
 	@echo "****************************************************"
+	@clang --analyze $<
+	@echo "------------------------------------"
 	@$(FRAMAC) $(FRAMACFLAGS) $< -then -werror-no-no-unknown -werror -werror-no-external 
 	@echo "------------------------------------"
 	@$(CC) -c -o $@ $(CFLAGS) $<
@@ -36,7 +40,7 @@ all: $(EXEC)
 	@$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@
 
 clean:
-	@rm -Rf $(LIBS) $(EXEC) *.o $(PROOF_OB_DIR)
+	@rm -Rf $(LIBS) $(EXEC) *.o $(PROOF_OB_DIR) *.plist
 
 
 
