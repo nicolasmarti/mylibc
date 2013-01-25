@@ -1,6 +1,3 @@
-CC=clang
-CFLAGS= 
-LDFLAGS=
 EXEC=test.exe
 LIBS=basetype.o string.o
 
@@ -25,16 +22,29 @@ all: $(EXEC)
 	@$(FRAMAC) $(FRAMACFLAGS) $< -then -werror-no-no-unknown -werror -werror-no-external 
 	@echo "------------------------------------"
 	@echo "compilation:"
-	@$(CC) -c -o $@ $(CFLAGS) $<
+	@clang -c -o $@ $<
+	@echo "------------------------------------"
+	@echo "\n\n"
+
+
+%.o: %.c
+	@echo "****************************************************"
+	@echo $<
+	@echo "****************************************************"
+	@echo "clang analysis:"
+	@clang --analyze $<
+	@echo "------------------------------------"
+	@echo "frama-c analysis:"
+	@$(FRAMAC) $(FRAMACFLAGS) $< -then -werror-no-no-unknown -werror -werror-no-external 
+	@echo "------------------------------------"
+	@echo "compilation:"
+	@clang -c -o $@ $<
 	@echo "------------------------------------"
 	@echo "\n\n"
 
 %.exe: %.o $(LIBS) 
-	@$(CC) $^ $(LDFLAGS) -o $@
+	@clang $^ -o $@
 
 clean:
 	@rm -Rf $(LIBS) $(EXEC) *.o $(PROOF_OB_DIR) *.plist
-
-%::
-	@echo "unknown rule for:" $@
 
