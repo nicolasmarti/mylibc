@@ -20,7 +20,7 @@ typedef uint8_t* string_t;
 
 
 // not yet handled ... 
-// /*@ type invariant string_invariant(string_t s) = wf_string(s) ; */ 
+/*@ type invariant string_invariant(string_t s) = wf_string(s) ; */ 
 
 ///////////////////////////////////////////////////
 
