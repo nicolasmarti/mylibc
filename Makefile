@@ -1,10 +1,11 @@
 CC=clang
-CFLAGS=
+CFLAGS= --analyze
 LDFLAGS=
 EXEC=test.exe
 LIBS=basetype.o string.o
 
-PROVERS= alt-ergo,coq #,zenon,z3,coqide
+#Possible provers: alt-ergo altgr-ergo coq coqide simplify vampire yices cvc3 z3 zenon
+PROVERS= alt-ergo,coq 
 
 PROOF_OB_DIR=.proof_obligations
 
@@ -26,7 +27,7 @@ all: $(EXEC)
 	@echo "****************************************************"
 	@echo $<
 	@echo "****************************************************"
-	@$(FRAMAC) $(FRAMACFLAGS) $<
+	@$(FRAMAC) $(FRAMACFLAGS) $< -then -werror-no-no-unknown -werror -werror-no-external 
 	@echo "------------------------------------"
 	@$(CC) -c -o $@ $(CFLAGS) $<
 	@echo "\n\n"
