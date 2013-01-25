@@ -7,7 +7,9 @@
 
 int main(int argc, char** argv, char** arge)
 {
-  printf("%zd\n", my_strlen((const string_t)"doudou"));
+
+  // not handle by the default memory model ...
+  // printf("%zd\n", my_strlen((const string_t)"doudou"));
 
   return 0;
 }
