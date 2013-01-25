@@ -15,25 +15,26 @@ all: $(EXEC)
 	@echo "****************************************************"
 	@echo $<
 	@echo "****************************************************"
-	$(FRAMAC) $(FRAMACFLAGS) $< -then -werror-no-no-unknown -werror -werror-no-external 
+	@$(FRAMAC) $(FRAMACFLAGS) $< -then -werror-no-no-unknown -werror -werror-no-external 
 	@echo "------------------------------------"
-	$(CC) -c -o $@ $(CFLAGS) $<
+	@$(CC) -c -o $@ $(CFLAGS) $<
 	@echo "\n\n"
 
 %.o: %.c
 	@echo "****************************************************"
 	@echo $<
 	@echo "****************************************************"
-	$(FRAMAC) $(FRAMACFLAGS) $<
+	@$(FRAMAC) $(FRAMACFLAGS) $<
 	@echo "------------------------------------"
-	$(CC) -c -o $@ $(CFLAGS) $<
+	@$(CC) -c -o $@ $(CFLAGS) $<
 	@echo "\n\n"
 
 %.exe: %.o $(LIBS) 
-	$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@
+	@$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@
 
 clean:
-	rm -Rf $(LIBS) $(EXEC) *.o
+	@rm -Rf $(LIBS) $(EXEC) *.o proof_obligations
+
 
 
 gui:
