@@ -6,8 +6,10 @@ LIBS=basetype.o string.o
 
 PROVERS= alt-ergo,coq #,zenon,z3,coqide
 
+PROOF_OB_DIR=.proof_obligations
+
 FRAMAC=frama-c
-FRAMACFLAGS=-wp -wp-rte -wp-warnings -wp-proof $(PROVERS) -wp-out proof_obligations -wp-script $(*F)_proofs.v #-wp-print
+FRAMACFLAGS=-wp -wp-rte -wp-warnings -wp-proof $(PROVERS) -wp-out $(PROOF_OB_DIR) -wp-script $(*F)_proofs.v #-wp-print
 
 all: $(EXEC)
 
@@ -33,7 +35,7 @@ all: $(EXEC)
 	@$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@
 
 clean:
-	@rm -Rf $(LIBS) $(EXEC) *.o proof_obligations
+	@rm -Rf $(LIBS) $(EXEC) *.o $(PROOF_OB_DIR)
 
 
 
