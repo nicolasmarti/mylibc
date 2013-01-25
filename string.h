@@ -41,6 +41,7 @@ size_t my_strlen(const string_t s);
 // compare two string
 /*@
 
+  requires wf_string(s1);
   requires wf_string(s2);
 
   assigns \nothing;  
