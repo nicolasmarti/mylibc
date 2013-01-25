@@ -7,10 +7,8 @@ This is a minimal C library, with specification in ACSL and verification using f
   
   * some provers: alt-ergo, coq, ....
     there frama-c names are to be declared in the variable PROVERS of the Makefile
-    
-N.B.: for proof in coq, the script by default is (C-name)_proofs.v (c.f. FRAMACFLAGS in Makefile)
-    
-N.B: proof obligations are in a '.' prefixed directory, thus not appearing on a simple ls command
+
+N.B.: you can stipulate a set of option for frama-c per c files with a default available
 
 N.B: <taken from frama-c wp plugin documentation>:
 

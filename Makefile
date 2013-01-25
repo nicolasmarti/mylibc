@@ -6,12 +6,10 @@ PROVERS= alt-ergo,coq
 
 PROOF_OB_DIR=.proof_obligations
 
-FRAMAC=frama-c
-FRAMACFLAGS=-wp -wp-rte -wp-warnings -wp-proof $(PROVERS) -wp-out $(PROOF_OB_DIR) -wp-script $(*F)_proofs.v #-wp-print
 
 all: $(EXEC)
 
-%.o: %.c %.h
+%.o: %.c %.h %.opt
 	@echo "****************************************************"
 	@echo $<
 	@echo "****************************************************"
@@ -19,28 +17,21 @@ all: $(EXEC)
 	@clang --analyze $<
 	@echo "------------------------------------"
 	@echo "frama-c analysis:"
-	@$(FRAMAC) $(FRAMACFLAGS) $< -then -werror-no-no-unknown -werror -werror-no-external 
+	@frama-c `cat $(*F).opt` $< -then -werror-no-no-unknown -werror -werror-no-external 
 	@echo "------------------------------------"
 	@echo "compilation:"
 	@clang -c -o $@ $<
 	@echo "------------------------------------"
 	@echo "\n\n"
 
+%.opt:
+	echo "-wp -wp-rte -wp-warnings -wp-proof" $(PROVERS) "-wp-out" $(PROOF_OB_DIR) "-wp-script $(*F)_proofs.v" > $@
 
 %.o: %.c
-	@echo "****************************************************"
-	@echo $<
-	@echo "****************************************************"
-	@echo "clang analysis:"
-	@clang --analyze $<
-	@echo "------------------------------------"
-	@echo "frama-c analysis:"
-	@$(FRAMAC) $(FRAMACFLAGS) $< -then -werror-no-no-unknown -werror -werror-no-external 
-	@echo "------------------------------------"
-	@echo "compilation:"
-	@clang -c -o $@ $<
-	@echo "------------------------------------"
-	@echo "\n\n"
+
+%.h:
+	touch $@
+
 
 %.exe: %.o $(LIBS) 
 	@clang $^ -o $@
@@ -48,3 +39,4 @@ all: $(EXEC)
 clean:
 	@rm -Rf $(LIBS) $(EXEC) *.o $(PROOF_OB_DIR) *.plist
 
+.DEFAULT :=
