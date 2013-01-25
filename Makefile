@@ -29,27 +29,12 @@ all: $(EXEC)
 	@echo "------------------------------------"
 	@echo "\n\n"
 
-%.o: %.c
-	@echo "****************************************************"
-	@echo $<
-	@echo "****************************************************"
-	@echo "clang analysis:"
-	@clang --analyze $<
-	@echo "------------------------------------"
-	@echo "frama-c analysis:"
-	@$(FRAMAC) $(FRAMACFLAGS) $< -then -werror-no-no-unknown -werror -werror-no-external 
-	@echo "------------------------------------"
-	@$(CC) -c -o $@ $(CFLAGS) $<
-	@echo "------------------------------------"
-	@echo "\n\n"
-
 %.exe: %.o $(LIBS) 
-	@$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@
+	@$(CC) $^ $(LDFLAGS) -o $@
 
 clean:
 	@rm -Rf $(LIBS) $(EXEC) *.o $(PROOF_OB_DIR) *.plist
 
+%::
+	@echo "unknown rule for:" $@
 
-
-gui:
-	frama-c-gui $(FRAMACFLAGS) $1
