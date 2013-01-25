@@ -15,6 +15,7 @@ all: $(EXEC)
 	@echo "****************************************************"
 	@echo "clang analysis:"
 	@clang --analyze $<
+	@rm $(*F).plist
 	@echo "------------------------------------"
 	@echo "frama-c analysis:"
 	@frama-c `cat $(*F).opt` $< -then -werror-no-no-unknown -werror -werror-no-external 
