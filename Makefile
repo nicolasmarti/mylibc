@@ -2,7 +2,7 @@ EXEC=test.exe
 LIBS=basetype.o string.o
 
 #Possible provers: alt-ergo altgr-ergo coq coqide simplify vampire yices cvc3 z3 zenon
-PROVERS= alt-ergo,coq 
+PROVERS= altgr-ergo #,coqide 
 
 PROOF_OB_DIR=.proof_obligations
 
@@ -26,7 +26,7 @@ all: $(EXEC)
 	@echo "\n\n"
 
 %.opt:
-	echo "-wp -wp-rte -wp-warnings -wp-proof" $(PROVERS) "-wp-out" $(PROOF_OB_DIR) "-wp-script $(*F)_proofs.v" > $@
+	echo "-wp -wp-rte -wp-warnings -wp-model Typed -wp-qed -wp-split -wp-proof" $(PROVERS) "-wp-out" $(PROOF_OB_DIR) "-wp-script $(*F)_proofs.v" > $@
 
 %.o: %.c
 
