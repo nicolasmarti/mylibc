@@ -18,31 +18,3 @@ size_t my_strlen(const string_t s){
 }
 
 
-
-cmp_t my_strcmp(const string_t s1, const string_t s2){
-
-  index_t counter = 0;
-
-  /*@
-    loop assigns counter;
-   */
-  for (counter = 0; ; ++counter)
-    {
-
-      switch (uint8_cmp(s1[counter], s2[counter])){
-
-      case Eq:
-	break;
-
-      case Lt:
-	return Lt;
-	
-      case Gt:
-	return Gt;
-
-      }
-
-      
-    }
-
-}
