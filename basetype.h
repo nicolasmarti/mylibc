@@ -20,8 +20,16 @@ typedef unsigned long long uint64_t;
 // the types used for size and to index into an array
 
 // here we make the arbitrary choice of uint32_t, should be sufficient
-
 typedef uint32_t size_t;
+
+// definition/lemma about the minimum of size_t
+/*@
+  logic size_t size_min(size_t s1, size_t s2) = s1 < s2 ? s1 : s2;
+
+  lemma size_min_sem: \forall size_t s1, s2; size_min(s1, s2) <= s1 && size_min(s1, s2) <= s2 && (size_min(s1, s2) == s1 || size_min(s1, s2) == s2);
+
+ */
+
 typedef uint32_t index_t;
 
 ////////////////////////////////////////////////
