@@ -16,11 +16,14 @@ typedef unsigned long uint32_t;
 typedef long long sint64_t;
 typedef unsigned long long uint64_t;
 
+typedef signed int sint_t;
+typedef unsigned int uint_t;
+
 ////////////////////////////////////////////////
 // the types used for size and to index into an array
 
 // here we make the arbitrary choice of uint32_t, should be sufficient
-typedef uint32_t size_t;
+typedef uint_t size_t;
 
 // definition/lemma about the minimum of size_t
 /*
@@ -30,7 +33,7 @@ typedef uint32_t size_t;
 
  */
 
-typedef uint32_t index_t;
+typedef uint_t index_t;
 
 ////////////////////////////////////////////////
 // comparaison
@@ -214,6 +217,98 @@ cmp_t uint64_cmp(const uint64_t i1, const uint64_t i2);
 */
 
 cmp_t sint64_cmp(const sint64_t i1, const sint64_t i2);
+
+
+/*@
+  assigns \nothing;
+  
+  behavior lt:
+    assumes i1 < i2;
+    ensures \result == Lt;
+
+  behavior eq:
+    assumes i1 == i2;
+    ensures \result == Eq;
+
+  behavior gt:
+    assumes i1 > i2;
+    ensures \result == Gt;
+
+  complete behaviors;
+  disjoint behaviors;
+
+*/
+
+cmp_t uint_cmp(const uint_t i1, const uint_t i2);
+
+/*@
+  assigns \nothing;
+  
+  behavior lt:
+    assumes i1 < i2;
+    ensures \result == Lt;
+
+  behavior eq:
+    assumes i1 == i2;
+    ensures \result == Eq;
+
+  behavior gt:
+    assumes i1 > i2;
+    ensures \result == Gt;
+
+  complete behaviors;
+  disjoint behaviors;
+
+*/
+
+cmp_t sint_cmp(const sint_t i1, const sint_t i2);
+
+
+/*@
+  assigns \nothing;
+  
+  behavior lt:
+    assumes i1 < i2;
+    ensures \result == Lt;
+
+  behavior eq:
+    assumes i1 == i2;
+    ensures \result == Eq;
+
+  behavior gt:
+    assumes i1 > i2;
+    ensures \result == Gt;
+
+  complete behaviors;
+  disjoint behaviors;
+
+*/
+
+cmp_t size_cmp(const size_t i1, const size_t i2);
+
+
+/*@
+  assigns \nothing;
+  
+  behavior lt:
+    assumes i1 < i2;
+    ensures \result == Lt;
+
+  behavior eq:
+    assumes i1 == i2;
+    ensures \result == Eq;
+
+  behavior gt:
+    assumes i1 > i2;
+    ensures \result == Gt;
+
+  complete behaviors;
+  disjoint behaviors;
+
+*/
+
+cmp_t index_cmp(const index_t i1, const index_t i2);
+
 
 
 ////////////////////////////////////////////////
