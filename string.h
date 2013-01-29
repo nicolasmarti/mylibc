@@ -47,33 +47,33 @@ size_t my_strlen(const string_t s);
 
 //------------------------------------------------
 
-
+// comparison between string
 /*@
   
-  predicate str_eq(string_t s1, string_t s2) = \exists size_t sz;
+  predicate string_eq(string_t s1, string_t s2) = \exists size_t sz;
      string_size(s1, sz) && string_size(s2, sz) &&
      \forall index_t i; 0 <= i <= sz ==> s1[i] == s2[i];
 
-  predicate str_lt(string_t s1, string_t s2) = \exists size_t sz1; \exists size_t sz2;
+  predicate string_lt(string_t s1, string_t s2) = \exists size_t sz1; \exists size_t sz2;
      string_size(s1, sz1) && string_size(s2, sz2) &&
      \exists index_t i; 0 <= i <= \min(sz1, sz2) &&
        (\forall index_t j; s1[j] == s2[j]) &&
        s1[i] < s2[i];
 
-  predicate str_gt(string_t s1, string_t s2) = \exists size_t sz1; \exists size_t sz2;
+  predicate string_gt(string_t s1, string_t s2) = \exists size_t sz1; \exists size_t sz2;
      string_size(s1, sz1) && string_size(s2, sz2) &&
      \exists index_t i; 0 <= i <= \min(sz1, sz2) &&
        (\forall index_t j; s1[j] == s2[j]) &&
        s1[i] > s2[i];
 
   lemma l1: \forall string_t s1; \forall string_t s2;
-     str_eq(s1, s2) ==> !str_lt(s1, s2) && !str_gt(s1, s2);
+     string_eq(s1, s2) ==> !string_lt(s1, s2) && !string_gt(s1, s2);
 
   lemma l2: \forall string_t s1; \forall string_t s2;
-     str_lt(s1, s2) ==> !str_eq(s1, s2) && !str_gt(s1, s2);
+     string_lt(s1, s2) ==> !string_eq(s1, s2) && !string_gt(s1, s2);
 
   lemma l3: \forall string_t s1; \forall string_t s2;
-     str_gt(s1, s2) ==> !str_eq(s1, s2) && !str_lt(s1, s2);
+     string_gt(s1, s2) ==> !string_eq(s1, s2) && !string_lt(s1, s2);
 
  */
 
@@ -91,31 +91,18 @@ size_t my_strlen(const string_t s);
   assigns \nothing;  
 
   behavior lt:
-    assumes \forall size_t sz1; string_size(s1, sz1) ==>
-            \forall size_t sz2; string_size(s2, sz2) ==>
-                 \exists index_t i;
-		 0 <= i <= sz1 && 0 <= i <= sz2 &&
-		 (\forall index_t j; 0 <= j < i ==> s1[j] == s2[j]) &&
-		 s1[i] < s2[i];
+    assumes string_lt(s1, s2);
 
     ensures \result == Lt;
 
   behavior gt:
-    assumes \forall size_t sz1; string_size(s1, sz1) ==>
-            \forall size_t sz2; string_size(s2, sz2) ==>
-                 \exists index_t i;
-		 0 <= i <= sz1 && 0 <= i <= sz2 &&
-		 (\forall index_t j; 0 <= j < i ==> s1[j] == s2[j]) &&
-		 s1[i] > s2[i];
+    assumes string_gt(s1,s2);
 
     ensures \result == Gt;
 
   behavior eq:
 
-    assumes \forall size_t sz1; string_size(s1, sz1) ==>
-            \forall size_t sz2; string_size(s2, sz2) ==>
-	    sz1 == sz2 &&
-	    \forall index_t i; 0 <= i < sz1 ==> s1[i] == s2[i];
+    assumes string_eq(s1,s2);
 
     ensures \result == Eq;
 

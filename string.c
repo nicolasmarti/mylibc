@@ -36,26 +36,15 @@ cmp_t my_strcmp(const string_t s1, const string_t s2){
       switch (uint8_cmp(s1[counter], s2[counter])){
 
       case Eq:
-	/*@
-	  assert s1[counter] == s2[counter];		  
-	 */
 	if (s1[counter] == 0 && s2[counter] == 0){
-	  //@ assert \forall size_t sz1; string_size(s1, sz1) ==> counter == sz1;
-	  //@ assert \forall size_t sz2; string_size(s2, sz2) ==> counter == sz2;
 	  return Eq;
 	}
 	break;
 
       case Lt:
-	/*@
-	  assert s1[counter] < s2[counter];		  
-	 */
 	return Lt;
 	
       case Gt:
-	/*@
-	  assert s1[counter] > s2[counter];		  
-	 */
 	return Gt;
 
       }
