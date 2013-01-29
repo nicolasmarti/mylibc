@@ -2,12 +2,11 @@ EXEC=test.exe
 LIBS=basetype.o string.o
 
 #Possible provers: alt-ergo altgr-ergo coq coqide simplify vampire yices cvc3 z3 zenon isabelle why why3
-PROVERS= altgr-ergo,coqide
+PROVERS= alt-ergo
 
 PROOF_OB_DIR=.proof_obligations
 
-DEFAULT_CONFIG="-wp -wp-rte -wp-warnings -wp-model Store -wp-qed -wp-split -wp-proof" $(PROVERS) "-wp-out" $(PROOF_OB_DIR) "-wp-script $(*F)_proofs.v"
-#DEFAULT_CONFIG="-wp -wp-rte -wp-warnings -wp-model Typed -wp-qed -wp-split -wp-proof" $(PROVERS) "-wp-out" $(PROOF_OB_DIR) "-wp-script $(*F)_proofs.v"
+DEFAULT_CONFIG="-wp -wp-rte -wp-warnings -wp-model Typed -wp-qed -wp-split -wp-par 1 -wp-dot -wp-proof" $(PROVERS) "-wp-out" $(PROOF_OB_DIR) "-wp-script $(*F)_proofs.v"
 
 all: $(EXEC)
 
