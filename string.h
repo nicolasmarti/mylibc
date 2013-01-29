@@ -94,7 +94,7 @@ size_t my_strlen(const string_t s);
     assumes \forall size_t sz1; string_size(s1, sz1) ==>
             \forall size_t sz2; string_size(s2, sz2) ==>
                  \exists index_t i;
-		 0 <= i <= sz1 && 0 <= i <= sz2 &&
+		 0 <= i <= \min(sz1, sz2) &&
 		    (\forall index_t j; 0 <= j < i ==> s1[j] == s2[j]) &&
 		    s1[i] < s2[i];
 
@@ -104,7 +104,7 @@ size_t my_strlen(const string_t s);
     assumes \forall size_t sz1; string_size(s1, sz1) ==>
             \forall size_t sz2; string_size(s2, sz2) ==>
                  \exists index_t i;
-		 0 <= i <= sz1 && 0 <= i <= sz2 &&
+		 0 <= i <= \min(sz1, sz2) &&
 		    (\forall index_t j; 0 <= j < i ==> s1[j] == s2[j]) &&
 		    s1[i] > s2[i];
 
