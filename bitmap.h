@@ -30,7 +30,7 @@ typedef uint_t* bitmap_t;
   requires 0 <= y < 32;
   assigns \nothing;
 
-  //ensures pow(pow2(y), \result - 1) <= \old(x) <= pow(pow2(y), \result);
+  ensures pow(pow2(y), \result - 1) <= \old(x) <= pow(pow2(y), \result);
 
  */ 
 
