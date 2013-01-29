@@ -1,5 +1,5 @@
 EXEC=test.exe
-LIBS=basetype.o string.o
+LIBS=basetype.o string.o bitmap.o
 
 #Possible provers: alt-ergo altgr-ergo coq coqide simplify vampire yices cvc3 z3 zenon isabelle why why3
 PROVERS= alt-ergo
