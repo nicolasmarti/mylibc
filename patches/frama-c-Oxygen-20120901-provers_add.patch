@@ -1,0 +1,76 @@
+diff -ru frama-c-Oxygen-20120901/src/wp/ProverVCD.ml frama-c-Oxygen-20120901-patched/src/wp/ProverVCD.ml
+--- frama-c-Oxygen-20120901/src/wp/ProverVCD.ml	2012-09-19 20:55:29.000000000 +0900
++++ frama-c-Oxygen-20120901-patched/src/wp/ProverVCD.ml	2013-01-29 08:46:01.931074618 +0900
+@@ -278,6 +278,24 @@
+     wdp = [| |] ;
+   }
+ 
++  let why= {
++    ext = "why" ;
++    why = [| "--why" |] ;
++    wdp = [| |] ;
++  }
++
++  let why3= {
++    ext = "why" ;
++    why = [| "--why3" |] ;
++    wdp = [| |] ;
++  }
++
++  let isabelle= {
++    ext = "why" ;
++    why = [| "--isabelle" |] ;
++    wdp = [| |] ;
++  }
++
+   let zenon = {
+     ext = "znn" ;
+     why = [| "--zenon" |] ;
+@@ -300,6 +318,9 @@
+       | "alt-ergo" -> altergo
+       | "zenon" -> zenon
+       | "verit" -> verit
++      | "why" -> why
++      | "why3" -> why3
++      | "isabelle" -> isabelle
+       | _ -> Wp_parameters.abort "Unknown prover '%s'" dp
+ 
+   let translate logs smt w vcd =
+Only in frama-c-Oxygen-20120901-patched/src/wp/qed: bin
+Only in frama-c-Oxygen-20120901-patched/src/wp/qed/src: .depend
+diff -ru frama-c-Oxygen-20120901/src/wp/VCS.ml frama-c-Oxygen-20120901-patched/src/wp/VCS.ml
+--- frama-c-Oxygen-20120901/src/wp/VCS.ml	2012-09-19 20:55:29.000000000 +0900
++++ frama-c-Oxygen-20120901-patched/src/wp/VCS.ml	2013-01-29 08:45:38.443369899 +0900
+@@ -80,6 +80,9 @@
+   Why "cvc3" ; 
+   Why "yices" ;
+   Why "zenon" ;
++  Why "why" ;
++  Why "why3" ;
++  Why "isabelle" ;
+ ]
+ 
+ let pp_prover fmt = function
+diff -ru frama-c-Oxygen-20120901/src/wp/wp_gui.ml frama-c-Oxygen-20120901-patched/src/wp/wp_gui.ml
+--- frama-c-Oxygen-20120901/src/wp/wp_gui.ml	2012-09-19 20:55:29.000000000 +0900
++++ frama-c-Oxygen-20120901-patched/src/wp/wp_gui.ml	2013-01-29 08:47:23.598047926 +0900
+@@ -234,6 +234,9 @@
+   "CVC3"     , Prover "cvc3" ;
+   "Yices"    , Prover "yices" ;
+   "Zenon"    , Prover "zenon" ;
++  "why"    , Prover "why" ;
++  "why3"    , Prover "why3" ;
++  "isabelle"    , Prover "isabelle" ;
+ ]
+ 
+ let wp_prover_get () =
+@@ -254,6 +257,9 @@
+ 	  | "cvc3"     -> Prover "cvc3"
+ 	  | "yices"    -> Prover "yices"
+ 	  | "zenon"    -> Prover "zenon"
++	  | "why"    -> Prover "why"
++	  | "why3"    -> Prover "why3"
++	  | "isabelle"    -> Prover "isabelle"
+ 	  | _ -> NoProver
+ 
+ let wp_dir = ref
