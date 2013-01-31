@@ -5,11 +5,11 @@ size_t my_strlen(const string_t s){
   index_t counter = 0;
 
   /*@
-    loop invariant \forall size_t j ; 0 <= j < counter ==> s[j] != 0;
-    loop assigns counter;
-    
-    
-   */
+    @loop invariant \forall size_t j ; 0 <= j < counter ==> s[j] != 0;
+    @loop assigns counter;
+    @
+    @
+  @*/
   for (counter = 0; s[counter] != 0; ++counter){
   }
 
@@ -23,13 +23,13 @@ cmp_t my_strcmp(const string_t s1, const string_t s2){
   index_t counter = 0;
 
   /*@
-    loop invariant 
-       \forall size_t sz1; string_size(s1, sz1) ==>
-       \forall size_t sz2; string_size(s2, sz2) ==>
-       counter <= sz1 && counter <= sz2 &&
-       (\forall index_t i; 0 <= i < counter ==> s1[i] == s2[i]);
-    loop assigns counter;
-   */
+    @loop invariant 
+    @\forall size_t sz1; string_size(s1, sz1) ==>
+    @\forall size_t sz2; string_size(s2, sz2) ==>
+    @counter <= sz1 && counter <= sz2 &&
+    @(\forall index_t i; 0 <= i < counter ==> s1[i] == s2[i]);
+    @loop assigns counter;
+  @*/
   for (counter = 0; ; counter++)
     {
 
