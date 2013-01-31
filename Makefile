@@ -1,12 +1,13 @@
 EXEC=test.exe
-LIBS=basetype.o string.o bitmap.o
+LIBS=basetype.o string.o round_stack.o # bitmap.o
 
 #Possible provers: alt-ergo altgr-ergo coq coqide simplify vampire yices cvc3 z3 zenon isabelle why why3
-PROVERS= alt-ergo
+PROVERS= altgr-ergo		
 
 PROOF_OB_DIR=.proof_obligations
 
-DEFAULT_CONFIG="-wp -wp-rte -wp-warnings -wp-model Typed -wp-qed -wp-split -wp-par 1 -wp-dot -wp-proof" $(PROVERS) "-wp-out" $(PROOF_OB_DIR) "-wp-script $(*F)_proofs.v"
+#DEFAULT_CONFIG="-cpp-extra-args=\"-I`frama-c -print-path`/libc\" -wp -wp-rte -wp-warnings -wp-model Typed -wp-qed -wp-split -wp-par 1 -wp-dot -wp-proof" $(PROVERS) "-wp-out" $(PROOF_OB_DIR) "-wp-script $(*F)_proofs.v"
+DEFAULT_CONFIG="-cpp-extra-args=\"-I`frama-c -print-path`/libc\" -wp -wp-rte -wp-model Typed -wp-qed -wp-split -wp-par 1 -wp-dot -wp-proof" $(PROVERS) "-wp-out" $(PROOF_OB_DIR) "-wp-script $(*F)_proofs.v"
 
 all: $(EXEC)
 
@@ -27,7 +28,8 @@ all: $(EXEC)
 	@echo "\n\n"
 
 %.opt:
-	echo $(DEFAULT_CONFIG) > $@
+	@echo $(DEFAULT_CONFIG) > $@
+	@cat $@
 
 %.o: %.c
 
