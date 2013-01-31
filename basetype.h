@@ -18,14 +18,14 @@ typedef unsigned long uint32_t;
 typedef long long sint64_t;
 typedef unsigned long long uint64_t;
 
-typedef signed int sint_t;
-typedef unsigned int uint_t;
+typedef signed long sint_t;
+typedef unsigned long uint_t;
 
 ////////////////////////////////////////////////
 // the types used for size and to index into an array
 
 // here we make the arbitrary choice of uint32_t, should be sufficient
-//typedef uint_t size_t;
+typedef uint_t size_t;
 
 // definition/lemma about the minimum of size_t
 /*
@@ -36,6 +36,9 @@ typedef unsigned int uint_t;
 */
 
 typedef uint_t index_t;
+
+// redefine the type for pointers
+typedef char* any_ptr_t;
 
 ////////////////////////////////////////////////
 // comparaison
