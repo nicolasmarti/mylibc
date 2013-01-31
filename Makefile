@@ -2,7 +2,7 @@ EXEC=test.exe
 LIBS=basetype.o string.o round_stack.o # bitmap.o
 
 #Possible provers: alt-ergo altgr-ergo coq coqide simplify vampire yices cvc3 z3 zenon isabelle why why3
-PROVERS= altgr-ergo		
+PROVERS= alt-ergo		
 
 PROOF_OB_DIR=.proof_obligations
 
@@ -19,7 +19,7 @@ all: $(EXEC)
 	@rm $(*F).plist
 	@echo "------------------------------------"
 	@echo "frama-c analysis:"
-	@frama-c `cat $(*F).opt` $< -then -werror-no-no-unknown -werror -werror-no-external 
+	@time frama-c `cat $(*F).opt` $< -then -werror-no-no-unknown -werror -werror-no-external 
 	@echo "------------------------------------"
 	@echo "compilation:"
 	@clang -c -o $@ $<
