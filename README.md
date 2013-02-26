@@ -2,17 +2,19 @@ This is a minimal C library, with specification in ACSL and verification using f
 
 * for now using
   * clang
-  * frama-c-oxygen
+  * frama-c-oxygen + patch
   * framac-error plugin (https://github.com/sylvainnahas/framac-werror)
   
   * some provers: alt-ergo, coq, ....
     there frama-c names are to be declared in the variable PROVERS of the Makefile
     
 N.B.: 
-* when WP is set for the Typed model, it seems to be able to generate goals for alt-ergo versino 0.95
+* when WP is set for the Typed model, it seems to be able to generate goals for alt-ergo version 0.95
 * Everything passes with alt-ergo 0.95
 * the bitmap library is not verifiable yet due to some bug in frama-c          
 * you can stipulate a set of option for frama-c per c files with a default available (<filename>.opt)
+* inductive predicate code gen is completely wrong. A patch "partially" correct that, though still need some boilerplate (c.f. list)
+
 
 Contensts:
 * basetype:
@@ -28,4 +30,6 @@ Contensts:
   - provides: insertion/extraction of elements at both the head and tail position of the stack
   
 * bitmap: a bitwise / treebased structure, allowing to search / keep track of flaged indexes efficiently
+
+* list: some simply linked list
   
