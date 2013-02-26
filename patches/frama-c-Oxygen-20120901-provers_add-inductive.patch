@@ -1,0 +1,108 @@
+diff -u frama-c-Oxygen-20120901/src/wp/Definitions.ml frama-patched/src/wp/Definitions.ml
+--- frama-c-Oxygen-20120901/src/wp/Definitions.ml	2012-09-19 20:55:29.000000000 +0900
++++ frama-patched/src/wp/Definitions.ml	2013-02-26 19:03:17.920288648 +0900
+@@ -387,7 +387,7 @@
+   method private vdfun d =
+     begin
+       List.iter self#vparam d.d_params ;
+-      self#vdefinition d.d_definition ;
++      (*self#vdefinition d.d_definition ;*)
+       self#on_dfun d ;
+     end
+ 
+diff -u frama-c-Oxygen-20120901/src/wp/LogicCompiler.ml frama-patched/src/wp/LogicCompiler.ml
+--- frama-c-Oxygen-20120901/src/wp/LogicCompiler.ml	2012-09-19 20:55:29.000000000 +0900
++++ frama-patched/src/wp/LogicCompiler.ml	2013-02-26 19:02:08.620291736 +0900
+@@ -606,11 +606,12 @@
+     } in 
+     Definitions.update_symbol ldef ;
+     (* Re-compile final cases *)
++    (*
+     let cases = List.map
+       (fun (case,labels,types,lemma) -> 
+ 	 compile_lemma cluster ~assumed:true case types labels lemma) 
+-      cases in
+-    Definitions.update_symbol { ldef with d_definition = Inductive cases } ;
++      cases in*)
++    Definitions.update_symbol { ldef with d_definition = Inductive [] } ;
+     type_for_signature l ldef sigp (* sufficient *) ; sigm
+     
+   let compile_logic cluster section l = 
+Only in frama-patched/src/wp/: Makefile
+diff -u frama-c-Oxygen-20120901/src/wp/ProverVCD.ml frama-patched/src/wp/ProverVCD.ml
+--- frama-c-Oxygen-20120901/src/wp/ProverVCD.ml	2012-09-19 20:55:29.000000000 +0900
++++ frama-patched/src/wp/ProverVCD.ml	2013-01-29 23:08:42.056701852 +0900
+@@ -278,6 +278,24 @@
+     wdp = [| |] ;
+   }
+ 
++  let why= {
++    ext = "why" ;
++    why = [| "--why" |] ;
++    wdp = [| |] ;
++  }
++
++  let why3= {
++    ext = "why" ;
++    why = [| "--why3" |] ;
++    wdp = [| |] ;
++  }
++
++  let isabelle= {
++    ext = "why" ;
++    why = [| "--isabelle" |] ;
++    wdp = [| |] ;
++  }
++
+   let zenon = {
+     ext = "znn" ;
+     why = [| "--zenon" |] ;
+@@ -300,6 +318,9 @@
+       | "alt-ergo" -> altergo
+       | "zenon" -> zenon
+       | "verit" -> verit
++      | "why" -> why
++      | "why3" -> why3
++      | "isabelle" -> isabelle
+       | _ -> Wp_parameters.abort "Unknown prover '%s'" dp
+ 
+   let translate logs smt w vcd =
+Only in frama-patched/src/wp/: ptests_local_config.ml
+Common subdirectories: frama-c-Oxygen-20120901/src/wp/qed and frama-patched/src/wp/qed
+Common subdirectories: frama-c-Oxygen-20120901/src/wp/share and frama-patched/src/wp/share
+diff -u frama-c-Oxygen-20120901/src/wp/VCS.ml frama-patched/src/wp/VCS.ml
+--- frama-c-Oxygen-20120901/src/wp/VCS.ml	2012-09-19 20:55:29.000000000 +0900
++++ frama-patched/src/wp/VCS.ml	2013-01-29 23:08:42.056701852 +0900
+@@ -80,6 +80,9 @@
+   Why "cvc3" ; 
+   Why "yices" ;
+   Why "zenon" ;
++  Why "why" ;
++  Why "why3" ;
++  Why "isabelle" ;
+ ]
+ 
+ let pp_prover fmt = function
+diff -u frama-c-Oxygen-20120901/src/wp/wp_gui.ml frama-patched/src/wp/wp_gui.ml
+--- frama-c-Oxygen-20120901/src/wp/wp_gui.ml	2012-09-19 20:55:29.000000000 +0900
++++ frama-patched/src/wp/wp_gui.ml	2013-01-29 23:08:42.056701852 +0900
+@@ -234,6 +234,9 @@
+   "CVC3"     , Prover "cvc3" ;
+   "Yices"    , Prover "yices" ;
+   "Zenon"    , Prover "zenon" ;
++  "why"    , Prover "why" ;
++  "why3"    , Prover "why3" ;
++  "isabelle"    , Prover "isabelle" ;
+ ]
+ 
+ let wp_prover_get () =
+@@ -254,6 +257,9 @@
+ 	  | "cvc3"     -> Prover "cvc3"
+ 	  | "yices"    -> Prover "yices"
+ 	  | "zenon"    -> Prover "zenon"
++	  | "why"    -> Prover "why"
++	  | "why3"    -> Prover "why3"
++	  | "isabelle"    -> Prover "isabelle"
+ 	  | _ -> NoProver
+ 
+ let wp_dir = ref
