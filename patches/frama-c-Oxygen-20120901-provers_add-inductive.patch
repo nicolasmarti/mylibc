@@ -1,34 +1,32 @@
 diff -u frama-c-Oxygen-20120901/src/wp/Definitions.ml frama-patched/src/wp/Definitions.ml
 --- frama-c-Oxygen-20120901/src/wp/Definitions.ml	2012-09-19 20:55:29.000000000 +0900
-+++ frama-patched/src/wp/Definitions.ml	2013-02-26 19:03:17.920288648 +0900
-@@ -387,7 +387,7 @@
++++ frama-patched/src/wp/Definitions.ml	2013-02-26 21:45:58.691853469 +0900
+@@ -382,7 +382,7 @@
+     | Logic t -> self#vtau t
+     | Value(t,_,e) -> self#vtau t ; self#vterm e
+     | Predicate(_,p) -> self#vpred p
+-    | Inductive cases -> List.iter self#vdlemma cases
++    | Inductive cases -> () (*List.iter self#vdlemma cases*)
+ 
    method private vdfun d =
      begin
-       List.iter self#vparam d.d_params ;
--      self#vdefinition d.d_definition ;
-+      (*self#vdefinition d.d_definition ;*)
-       self#on_dfun d ;
-     end
- 
 diff -u frama-c-Oxygen-20120901/src/wp/LogicCompiler.ml frama-patched/src/wp/LogicCompiler.ml
 --- frama-c-Oxygen-20120901/src/wp/LogicCompiler.ml	2012-09-19 20:55:29.000000000 +0900
-+++ frama-patched/src/wp/LogicCompiler.ml	2013-02-26 19:02:08.620291736 +0900
++++ frama-patched/src/wp/LogicCompiler.ml	2013-02-26 21:54:28.023830761 +0900
 @@ -606,11 +606,12 @@
      } in 
      Definitions.update_symbol ldef ;
      (* Re-compile final cases *)
-+    (*
++    let cluster = Definitions.cluster ~id:(cluster_id cluster) () in
      let cases = List.map
        (fun (case,labels,types,lemma) -> 
  	 compile_lemma cluster ~assumed:true case types labels lemma) 
--      cases in
+       cases in
 -    Definitions.update_symbol { ldef with d_definition = Inductive cases } ;
-+      cases in*)
 +    Definitions.update_symbol { ldef with d_definition = Inductive [] } ;
      type_for_signature l ldef sigp (* sufficient *) ; sigm
      
    let compile_logic cluster section l = 
-Only in frama-patched/src/wp/: Makefile
 diff -u frama-c-Oxygen-20120901/src/wp/ProverVCD.ml frama-patched/src/wp/ProverVCD.ml
 --- frama-c-Oxygen-20120901/src/wp/ProverVCD.ml	2012-09-19 20:55:29.000000000 +0900
 +++ frama-patched/src/wp/ProverVCD.ml	2013-01-29 23:08:42.056701852 +0900
