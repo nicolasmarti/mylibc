@@ -13,7 +13,7 @@ N.B.:
 * Everything passes with alt-ergo 0.95
 * the bitmap library is not verifiable yet due to some bug in frama-c          
 * you can stipulate a set of option for frama-c per c files with a default available (<filename>.opt)
-* inductive predicate code gen is completely wrong. A patch "partially" correct that, though still need some boilerplate (c.f. list)
+* inductive predicate code gen is completely wrong. A patch correct that
 
 
 Contensts:
