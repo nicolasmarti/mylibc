@@ -12,21 +12,18 @@ diff -u frama-c-Oxygen-20120901/src/wp/Definitions.ml frama-patched/src/wp/Defin
      begin
 diff -u frama-c-Oxygen-20120901/src/wp/LogicCompiler.ml frama-patched/src/wp/LogicCompiler.ml
 --- frama-c-Oxygen-20120901/src/wp/LogicCompiler.ml	2012-09-19 20:55:29.000000000 +0900
-+++ frama-patched/src/wp/LogicCompiler.ml	2013-02-26 21:54:28.023830761 +0900
-@@ -606,11 +606,12 @@
++++ frama-patched/src/wp/LogicCompiler.ml	2013-02-27 19:44:52.696325337 +0900
+@@ -605,7 +605,10 @@
+       d_definition = Logic Qed.Logic.Prop ;
      } in 
      Definitions.update_symbol ldef ;
++    Signature.update l sigm ;
++    
      (* Re-compile final cases *)
 +    let cluster = Definitions.cluster ~id:(cluster_id cluster) () in
      let cases = List.map
        (fun (case,labels,types,lemma) -> 
  	 compile_lemma cluster ~assumed:true case types labels lemma) 
-       cases in
--    Definitions.update_symbol { ldef with d_definition = Inductive cases } ;
-+    Definitions.update_symbol { ldef with d_definition = Inductive [] } ;
-     type_for_signature l ldef sigp (* sufficient *) ; sigm
-     
-   let compile_logic cluster section l = 
 diff -u frama-c-Oxygen-20120901/src/wp/ProverVCD.ml frama-patched/src/wp/ProverVCD.ml
 --- frama-c-Oxygen-20120901/src/wp/ProverVCD.ml	2012-09-19 20:55:29.000000000 +0900
 +++ frama-patched/src/wp/ProverVCD.ml	2013-01-29 23:08:42.056701852 +0900
