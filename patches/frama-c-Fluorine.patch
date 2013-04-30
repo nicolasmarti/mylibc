@@ -1,0 +1,16 @@
+diff -u frama-c-Fluorine-20130401/src/wp/LogicCompiler.ml frama-c-Fluorine-patched/src/wp/LogicCompiler.ml
+--- frama-c-Fluorine-20130401/src/wp/LogicCompiler.ml	2013-04-19 16:55:54.000000000 +0900
++++ frama-c-Fluorine-patched/src/wp/LogicCompiler.ml	2013-04-30 21:23:00.473746847 +0900
+@@ -626,7 +626,9 @@
+       d_definition = Logic Qed.Logic.Prop ;
+     } in 
+     Definitions.update_symbol ldef ;
++    Signature.update l (SIG sigm) ;
+     (* Re-compile final cases *)
++    let cluster = Definitions.cluster ~id:(cluster_id cluster) () in
+     let cases = List.map
+       (fun (case,labels,types,lemma) -> 
+ 	 compile_lemma cluster ~assumed:true case types labels lemma) 
+Only in frama-c-Fluorine-patched/src/wp/: Makefile
+Common subdirectories: frama-c-Fluorine-20130401/src/wp/qed and frama-c-Fluorine-patched/src/wp/qed
+Common subdirectories: frama-c-Fluorine-20130401/src/wp/share and frama-c-Fluorine-patched/src/wp/share
