@@ -5,7 +5,7 @@
 
 // the round_stack_header
 
-typedef struct {
+typedef struct round_stack {
 
   // size of element in byte
   size_t element_size;
