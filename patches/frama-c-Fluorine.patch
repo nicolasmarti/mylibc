@@ -1,6 +1,97 @@
+diff -u frama-c-Fluorine-20130401/src/wp/Cvalues.ml frama-c-Fluorine-patched/src/wp/Cvalues.ml
+--- frama-c-Fluorine-20130401/src/wp/Cvalues.ml	2013-04-19 16:55:54.000000000 +0900
++++ frama-c-Fluorine-patched/src/wp/Cvalues.ml	2013-05-01 22:46:27.949671510 +0900
+@@ -144,7 +144,7 @@
+     Definitions.call_pred
+       (Lang.generated_p (C.prefix ^ Lang.comp_id c))
+       (fun lfun ->
+-	 let basename = if c.cstruct then "S" else "U" in
++	 let basename = if c.cstruct then "s" else "u" in
+ 	 let s = Lang.freshvar ~basename (Lang.tau_of_comp c) in
+ 	 let def = p_all 
+ 	   (fun f -> is_typ f.ftype (e_getfield (e_var s) (Lang.Cfield f)))
+@@ -160,7 +160,7 @@
+     Definitions.call_pred
+     (Lang.generated_p (array_name te ds))
+        (fun lfun ->
+-	  let x = Lang.freshvar ~basename:"T" (Matrix.tau te ds) in
++	  let x = Lang.freshvar ~basename:"t" (Matrix.tau te ds) in
+ 	  let ks = List.map (fun _d -> Lang.freshvar ~basename:"k" Logic.Int) ds in
+ 	  let e = List.fold_left (fun a k -> e_get a (e_var k)) (e_var x) ks in
+ 	  let def = p_forall ks (is_obj te e) in
+@@ -236,8 +236,8 @@
+        let cluster = Definitions.matrix te in
+        let denv = Matrix.denv ds in
+        let tau = Matrix.tau te ds in
+-       let xa = Lang.freshvar ~basename:"T" tau in
+-       let xb = Lang.freshvar ~basename:"T" tau in
++       let xa = Lang.freshvar ~basename:"t" tau in
++       let xb = Lang.freshvar ~basename:"t" tau in
+        let ta = e_var xa in
+        let tb = e_var xb in
+        let ta_xs = List.fold_left e_get ta denv.index_val in
+@@ -286,7 +286,7 @@
+   Definitions.call_pred
+     (Lang.generated_p ("Eq" ^ Lang.comp_id c))
+     (fun lfun ->
+-       let basename = if c.cstruct then "S" else "U" in
++       let basename = if c.cstruct then "s" else "u" in
+        let xa = Lang.freshvar ~basename (Lang.tau_of_comp c) in
+        let xb = Lang.freshvar ~basename (Lang.tau_of_comp c) in
+        let ra = e_var xa in
+diff -u frama-c-Fluorine-20130401/src/wp/Lang.ml frama-c-Fluorine-patched/src/wp/Lang.ml
+--- frama-c-Fluorine-20130401/src/wp/Lang.ml	2013-04-19 16:55:54.000000000 +0900
++++ frama-c-Fluorine-patched/src/wp/Lang.ml	2013-05-01 23:22:53.849574054 +0900
+@@ -71,23 +71,23 @@
+ 
+ let comp_id c = 
+   if c.cstruct 
+-  then Printf.sprintf "S_%s" c.cname
+-  else Printf.sprintf "U_%s" c.cname
++  then Printf.sprintf "s_%s" c.cname
++  else Printf.sprintf "u_%s" c.cname
+ 
+ let field_id f =
+-  Printf.sprintf "F_%s_%s" f.fcomp.cname f.fname
++  Printf.sprintf "f_%s_%s" f.fcomp.cname f.fname
+ 
+ let type_id l =
+-  Printf.sprintf "A_%s" l.lt_name
++  Printf.sprintf "a_%s" l.lt_name
+ 
+ let logic_id f =
+   let name = avoid_leading_backlash (LogicUsage.get_name f) in
+   if f.l_type = None 
+-  then Printf.sprintf "P_%s" name
+-  else Printf.sprintf "L_%s" name
++  then Printf.sprintf "p_%s" name
++  else Printf.sprintf "l_%s" name
+ 
+-let ctor_id c = Printf.sprintf "C_%s" (avoid_leading_backlash c.ctor_name)
+-let lemma_id l = Printf.sprintf "Q_%s" (avoid_leading_backlash l)
++let ctor_id c = Printf.sprintf "c_%s" (avoid_leading_backlash c.ctor_name)
++let lemma_id l = Printf.sprintf "q_%s" (avoid_leading_backlash l)
+ 
+ (* -------------------------------------------------------------------------- *)
+ 
+@@ -180,10 +180,10 @@
+   type t = adt
+ 
+   let basename = function
+-    | Mtype a -> basename "M" a.mdt_link
+-    | Mrecord(r,_) -> basename "R" r.mdt_link
+-    | Comp c -> basename (if c.cstruct then "S" else "U") c.corig_name
+-    | Atype lt -> basename "A" lt.lt_name
++    | Mtype a -> basename "m" a.mdt_link
++    | Mrecord(r,_) -> basename "r" r.mdt_link
++    | Comp c -> basename (if c.cstruct then "s" else "u") c.corig_name
++    | Atype lt -> basename "a" lt.lt_name
+ 
+   let id = function
+     | Mtype a -> a.mdt_link
 diff -u frama-c-Fluorine-20130401/src/wp/LogicCompiler.ml frama-c-Fluorine-patched/src/wp/LogicCompiler.ml
 --- frama-c-Fluorine-20130401/src/wp/LogicCompiler.ml	2013-04-19 16:55:54.000000000 +0900
-+++ frama-c-Fluorine-patched/src/wp/LogicCompiler.ml	2013-04-30 21:23:00.473746847 +0900
++++ frama-c-Fluorine-patched/src/wp/LogicCompiler.ml	2013-05-01 22:53:53.821651632 +0900
 @@ -626,7 +626,9 @@
        d_definition = Logic Qed.Logic.Prop ;
      } in 
@@ -14,3 +105,17 @@ diff -u frama-c-Fluorine-20130401/src/wp/LogicCompiler.ml frama-c-Fluorine-patch
 Only in frama-c-Fluorine-patched/src/wp/: Makefile
 Common subdirectories: frama-c-Fluorine-20130401/src/wp/qed and frama-c-Fluorine-patched/src/wp/qed
 Common subdirectories: frama-c-Fluorine-20130401/src/wp/share and frama-c-Fluorine-patched/src/wp/share
+diff -u frama-c-Fluorine-20130401/src/wp/VarUsage.ml frama-c-Fluorine-patched/src/wp/VarUsage.ml
+--- frama-c-Fluorine-20130401/src/wp/VarUsage.ml	2013-04-19 16:55:54.000000000 +0900
++++ frama-c-Fluorine-patched/src/wp/VarUsage.ml	2013-05-01 23:18:08.533586774 +0900
+@@ -262,8 +262,8 @@
+   let pp_access fmt ds = 
+     List.iter
+       (function
+-	 | Dload -> Format.fprintf fmt "L"
+-	 | Dfield -> Format.fprintf fmt "F"
++	 | Dload -> Format.fprintf fmt "l"
++	 | Dfield -> Format.fprintf fmt "f"
+ 	 | Dshift box -> Format.fprintf fmt "{%a}" pp_box box
+       ) ds
+ 
