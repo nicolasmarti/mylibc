@@ -25,7 +25,7 @@ typedef unsigned long uint_t;
 // the types used for size and to index into an array
 
 // here we make the arbitrary choice of uint32_t, should be sufficient
-typedef uint_t size_t;
+//typedef uint_t size_t;
 
 // definition/lemma about the minimum of size_t
 /*
