@@ -1,10 +1,11 @@
 EXEC=test.exe
-LIBS=basetype.o string.o round_stack.o list.o quicksort.o bitmap.o  
+LIBS=basetype.o string.o round_stack.o list.o quicksort.o bin_search.o
 
 #Possible provers: alt-ergo altgr-ergo coq coqide simplify vampire yices cvc3 z3 zenon isabelle why why3
 PROOF_OB_DIR=.proof_obligations
 
-PROVERS=why3ide		
+#PROVERS=why3ide
+PROVERS=why3:Alt-Ergo,why3:Z3
 DEFAULT_CONFIG="-cpp-extra-args=\"-I`frama-c -print-path`/libc\" -wp -wp-rte -wp-model Typed -wp-split -wp-par 1 -wp-proof-trace -wp-proof " $(PROVERS) " -wp-out" $(PROOF_OB_DIR) " -wp-script $(*F)_proofs.v"
 
 
@@ -40,7 +41,7 @@ all: $(LIBS) $(EXEC)
 	@echo $<
 	@echo "****************************************************"
 	@echo "frama-c analysis:"
-	@frama-c-gui -cpp-extra-args="-I`frama-c -print-path`/libc" $<
+	@frama-c-gui -cpp-extra-args="-I`frama-c -print-path`/libc" -wp -wp-rte -wp-model Typed -wp-prover $(PROVERS) -wp-out $(PROOF_OB_DIR)_$< $<
 	@echo "------------------------------------"
 	@echo "\n\n"
 

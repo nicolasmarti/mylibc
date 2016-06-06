@@ -69,23 +69,45 @@ size_t partition_double(double* array, const size_t l, const size_t h){
 
 void quicksort_double(double* array, const size_t l, const size_t h){
   
-  if (l < h) {
-
     size_t p = partition_double(array, l, h);
 
-    //@ assert \forall integer k; l <= k < p ==> array[k] < array[p];
-    //@ assert \forall integer k; p <= k <= h  ==> array[p] <= array[k]; 
+ L1:
 
-    if (l < p)
+    //@ assert permut_double{Pre, Here}(array, array, l, h);
+    //@ assert gt_array_double( array, l, p - 1, array[p] );
+    //@ assert lte_array_double( array, p+1, h, array[p] );
+
+    if (l < p)      
       quicksort_double(array, l, p-1);
 
-    //@ assert \forall integer k; l <= k < p-1 ==> array[k] <= array[k+1];
+    //@ assert permut_double{L1, Here}(array, array, l, p-1);
+    //@ assert permut_double{L1, Here}(array, array, p, h);
+    //@ assert permut_double{L1, Here}(array, array, l, h);    
 
-    if (p < h)
+    //@ assert ordered_array_double(array, l, p-1);
+    //@ assert lte_array_double( array, p+1, h, array[p] );
+    //@ assert gt_array_double( array, l, p - 1, array[p] );
+
+
+ L2:
+    
+    if (p < h)      
       quicksort_double(array, p+1, h);
 
-    //@ assert \forall integer k; p+1 <= k <= h ==> array[k] <= array[k+1];
+    //@ assert permut_double{L2, Here}(array, array, l, p);
+    //@ assert permut_double{L2, Here}(array, array, p+1, h);
+    //@ assert permut_double{L2, Here}(array, array, l, h);    
 
-  }
-  
+    //@ assert ordered_array_double(array, l, p-1);
+    //@ assert ordered_array_double(array, p+1, h);
+    //@ assert lte_array_double( array, p+1, h, array[p] );
+    //@ assert gt_array_double( array, l, p - 1, array[p] );
+
+ L3:
+
+    //@ assert permut_double{Pre, Here}(array, array, l, h);
+    //@ assert ordered_array_double(array, l, h);
+
+    return;
+    
 }
