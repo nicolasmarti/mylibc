@@ -257,6 +257,13 @@ uint8_t round_stack_insert_first(round_stack_t* s, any_ptr_t elt);
 
 uint8_t round_stack_extract_first(round_stack_t* s, any_ptr_t elt);
 
-
+/*@ requires \valid(((char*)dest)+(0..n-1))
+  @          && \valid(((char*)src)+(0..n-1));
+  @ requires \separated(((char *)dest)+(0..n-1),((char *)src)+(0..n-1));
+  @ assigns ((char*)dest)[0..n-1] \from ((char*)src)[0..n-1];
+  @ ensures \forall integer k; 0 <= k < n ==> ((char*)dest)[k] == ((char*)src)[k] && \result == dest;
+  @*/
+extern void *memcpy(void *restrict dest,
+                    const void *restrict src, size_t n);
 
 #endif
