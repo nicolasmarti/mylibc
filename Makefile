@@ -49,14 +49,20 @@ all: $(LIBS) $(EXEC)
 	@echo "****************************************************"
 	@echo $<
 	@echo "****************************************************"
-	@time frama-c -cpp-extra-args="-I`frama-c -print-path`/libc" -cpp-command 'gcc -C -E -I. -x c' -typecheck $< -rte -rte-all -rte-precond -no-unicode -ocode $@ 
+	time frama-c -cpp-extra-args="-I`frama-c -print-path`/libc" -cpp-command 'gcc -C -E -I. -x c' -typecheck $< -rte -rte-all -rte-precond -no-unicode -then -ocode $@ -print
 	@echo "------------------------------------"
 	@echo "\n\n"
+
+%.svg: %.i
+	frama-c -load-script cfg_print.ml $<
+	cat cfg.out | dot -Tsvg > $@
+
 
 %.exe: %.o $(LIBS) 
 	@clang $^ -o $@
 
 clean:
-	@rm -Rf $(LIBS) $(EXEC) *.o $(PROOF_OB_DIR)_* *.plist *.i
+	@rm -Rf $(LIBS) $(EXEC) *.o $(PROOF_OB_DIR)_* *.plist *.i *.svg *.out
+
 
 .DEFAULT :=
