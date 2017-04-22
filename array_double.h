@@ -37,32 +37,21 @@
   @
 */
 
-/*@
-  @ axiomatic permut_extra {
+/*@ axiomatic permut_extra {
+  @ 
+  @ axiom gt_array_permut_conserve{L1, L2}:
+  @ \forall double *a1, *a2, integer l, h, double m;
+  @    gt_array_double{L1}( a1, l, h, m ) ==>
+  @    permut_double{L1, L2}(a1, a2, l, h) ==>
+  @    gt_array_double{L2}( a2, l, h, m );
   @
-  @ axiom lt_permut_conserve{L1, L2}:
-  @    \forall double *a1, *a2, double m, integer l, h;
-  @       lt_array_double{L1}(a1, l, h, m) ==>
-  @       \at( m, L1 ) == \at( m, L2) ==>
-  @          lt_array_double{L2}(a2, l, h, m);
+  @ axiom lte_array_permut_conserve{L1, L2}:
+  @ \forall double *a1, *a2, integer l, h, double m;
+  @    lte_array_double{L1}( a1, l, h, m ) ==>
+  @    permut_double{L1, L2}(a1, a2, l, h) ==>
+  @    lte_array_double{L2}( a2, l, h, m );
+
   @
-  @ axiom lte_permut_conserve{L1, L2}:
-  @    \forall double *a1, *a2, double m, integer l, h;
-  @       lte_array_double{L1}(a1, l, h, m) ==>
-  @       \at( m, L1 ) == \at( m, L2) ==>
-  @          lte_array_double{L2}(a2, l, h, m);
-  @
-  @ axiom gt_permut_conserve{L1, L2}:
-  @    \forall double *a1, *a2, double m, integer l, h;
-  @       gt_array_double{L1}(a1, l, h, m) ==>
-  @       \at( m, L1 ) == \at( m, L2) ==>
-  @          gt_array_double{L2}(a2, l, h, m);
-  @
-  @ axiom gte_permut_conserve{L1, L2}:
-  @    \forall double *a1, *a2, double m, integer l, h;
-  @       gte_array_double{L1}(a1, l, h, m) ==>
-  @       \at( m, L1 ) == \at( m, L2) ==>
-  @          gte_array_double{L2}(a2, l, h, m);
   @ }
 */
 
