@@ -21,7 +21,7 @@ all: $(LIBS) $(EXEC)
 	@rm $(*F).plist
 	@echo "------------------------------------"
 	@echo "frama-c analysis:"
-	@time frama-c -cpp-extra-args="-I`frama-c -print-path`/libc" -wp -wp-rte -wp-model Typed -wp-timeout 10 -wp-split -wp-par 1 -wp-prover $(PROVERS) -wp-out $(PROOF_OB_DIR)_$< $< -then -print -ocode tmp.c -no-unicode #-werror-no-no-unknown -werror -werror-no-external
+	@time frama-c -cpp-extra-args="-I`frama-c -print-path`/libc" -wp -wp-rte -wp-model Typed -wp-timeout 10 -wp-split -wp-par 4 -wp-prover $(PROVERS) -wp-out $(PROOF_OB_DIR)_$< $< -then -print -ocode tmp.c -no-unicode #-werror-no-no-unknown -werror -werror-no-external
 	@echo "------------------------------------"
 	echo "compilation:"
 	clang -D MAIN -c -o $@ $<
