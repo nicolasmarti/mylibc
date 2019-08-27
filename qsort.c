@@ -65,14 +65,16 @@ void occurence_reverse_proof( value_type* a, unsigned int l, unsigned int h, val
 
 // split
 
-/*@ requires l <= cut < h;
+
+
+/*@ requires l <= cut <= h;
   @ assigns \nothing;
   @ ensures occurence( a, l, h, e ) == occurence( a, l, cut, e ) + occurence( a, cut, h, e );
 */
 void occurence_split_proof( value_type* a, unsigned int l, unsigned int h, value_type e, unsigned int cut ){
-
+  
   /*@ loop invariant cut <= i <= h;
-    @ loop invariant occurence( a, l, i, e ) == occurence( a, l, cut, e ) + occurence( a, cut, h, e );
+    @ loop invariant occurence( a, l, i, e ) == occurence( a, l, cut, e ) + occurence( a, cut, i, e );
     @ loop assigns i;
     @ loop variant (h - i);
   */
@@ -104,18 +106,18 @@ unsigned int occurence( value_type* a, unsigned int l, unsigned int h, value_typ
 
   unsigned int result = 0;
 
-  /*@ loop invariant i_range: l <= i <= h;
-    @ loop invariant result_prefix: occurence( a, l, h, e ) == result + occurence( a, i, h, e );
+  /*@ loop invariant occurence_i_range: l <= i <= h;
+    @ loop invariant occurence_result_prefix: occurence( a, l, h, e ) == result + occurence( a, i, h, e );
     @
     @ loop assigns i, result;
     @ loop variant (h - i);
   */
   for (unsigned int i = l; i != h; ++i){
 
+    //@assert occurence( a, i+1, h, e ) == (a[i] == e ? 1 : 0) + occurence( a, i+1, h, e );
+    
     if (a[i] == e)
       result += 1;
-
-    i += 1;
     
   }
 
