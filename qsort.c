@@ -31,7 +31,7 @@ void occurence_range_proof( value_type* a, unsigned int l, unsigned int h, value
   @ axiomatic Occurence_range {
   @
   @ axiom occurence_n_range: \forall value_type* a, integer l,  h, value_type e, integer n;
-  @                           0 <= occurence( a, l, h, e ) <= h - l;
+  @                           l <= h ==> 0 <= occurence( a, l, h, e ) <= h - l;
   @ }
   @
 */
@@ -58,14 +58,14 @@ void occurence_reverse_proof( value_type* a, unsigned int l, unsigned int h, val
   @ axiomatic Occurence_reverse {
   @
   @ axiom occurence_reverse: \forall value_type* a, integer l,  h, value_type e, integer n;
-  @                           occurence( a, l, h, e ) == (a[h-1] == e ? 1 : 0) + occurence( a, l, h-1, e);
+  @                           l < h ==> occurence( a, l, h, e ) == (a[h-1] == e ? 1 : 0) + occurence( a, l, h-1, e);
   @ }
   @
 */
 
 // split
 
-/*@ requires l <= cut <= h;
+/*@ requires l <= cut < h;
   @ assigns \nothing;
   @ ensures occurence( a, l, h, e ) == occurence( a, l, cut, e ) + occurence( a, cut, h, e );
 */
@@ -84,7 +84,7 @@ void occurence_split_proof( value_type* a, unsigned int l, unsigned int h, value
   @ axiomatic Occurence_split{
   @
   @ axiom occurence_split: \forall value_type* a, integer l,  h, value_type e, integer n, integer cut;
-  @                        occurence( a, l, h, e ) == occurence( a, l, cut, e ) + occurence( a, cut, h, e );   
+  @                        l <= cut <= h ==> occurence( a, l, h, e ) == occurence( a, l, cut, e ) + occurence( a, cut, h, e );   
   @ }
   @
 */
