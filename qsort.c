@@ -114,22 +114,18 @@ unsigned int occurence( value_type* a, unsigned int l, unsigned int h, value_typ
   */
   for (unsigned int i = l; i != h; ++i){
 
-    //@assert l <= i < h;
-    //@assert occurence_loop_decomp: occurence( a, l, h, e ) == result + (a[i] == e ? 1 : 0) + occurence( a, i+1, h, e );
-    
-    if (a[i] == e ){
+    const value_type x = a[i];
+        
+    //if (a[i] == e){
+    if (x == e){
 
-      //@assert gne1: a[i] == e; //cannot be proved ...
-      //@assert gne2: (a[i] == e ? 1 : 0) == 1;
-      //@assert occurence_loop_decomp_left: occurence( a, l, h, e ) == result + 1 + occurence( a, i+1, h, e );
+      //@assert gne0: x == e; //cannot be proved ... but prove the rest
+      //@assert gne1: a[i] == e; //cannot be proved ... but prove the rest
       
       result += 1;
-
-      //@assert occurence_left: occurence( a, l, h, e ) == result + occurence( a, i+1, h, e );
       
     } else {
-
-      //@assert occurence_right: occurence( a, l, h, e ) == result + occurence( a, i+1, h, e );
+      //@assert gne2: a[i] != e; //cannot be proved ... but prove the rest
 
     }
     
@@ -161,7 +157,7 @@ unsigned int occurence( value_type* a, unsigned int l, unsigned int h, value_typ
 */
 void swap( value_type* a, unsigned int l, unsigned int h, unsigned int i1, unsigned int i2 ){
 
-  unsigned int tmp = a[i2];
+  value_type tmp = a[i2];
   a[i2] = a[i1];
   a[i1] = tmp;
 
