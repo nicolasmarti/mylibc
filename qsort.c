@@ -1,4 +1,4 @@
-#define value_type double
+#define value_type unsigned int
 
 /////////////// Base definition
 
@@ -85,7 +85,7 @@ void occurence_split_proof( value_type* a, unsigned int l, unsigned int h, value
 /*@
   @ axiomatic Occurence_split{
   @
-  @ axiom occurence_split: \forall value_type* a, integer l,  h, value_type e, integer n, integer cut;
+  @ axiom occurence_split: \forall value_type* a, integer l,  h, value_type e, integer cut;
   @                        l <= cut <= h ==> occurence( a, l, h, e ) == occurence( a, l, cut, e ) + occurence( a, cut, h, e );   
   @ }
   @
@@ -102,32 +102,22 @@ void occurence_split_proof( value_type* a, unsigned int l, unsigned int h, value
   @ ensures \result == occurence( a, l, h, e );
 */
 
+
+
 unsigned int occurence( value_type* a, unsigned int l, unsigned int h, value_type e ){
 
   unsigned int result = 0;
 
   /*@ loop invariant occurence_i_range: l <= i <= h;
+    @ loop invariant always_valid: \valid( a+(l..h-1) );
     @ loop invariant occurence_result_prefix: occurence( a, l, h, e ) == result + occurence( a, i, h, e );
-    @
     @ loop assigns i, result;
     @ loop variant (h - i);
   */
   for (unsigned int i = l; i != h; ++i){
-
-    const value_type x = a[i];
-        
-    //if (a[i] == e){
-    if (x == e){
-
-      //@assert gne0: x == e; //cannot be proved ... but prove the rest
-      //@assert gne1: a[i] == e; //cannot be proved ... but prove the rest
-      
+    
+    if (a[i] == e)
       result += 1;
-      
-    } else {
-      //@assert gne2: a[i] != e; //cannot be proved ... but prove the rest
-
-    }
     
   }
 
@@ -158,6 +148,8 @@ unsigned int occurence( value_type* a, unsigned int l, unsigned int h, value_typ
 void swap( value_type* a, unsigned int l, unsigned int h, unsigned int i1, unsigned int i2 ){
 
   value_type tmp = a[i2];
+  /*@ghost occurence_split_proof( a, l, h, a[i2], i2 ); */
+  //@assert A1: occurence( a, l, i2, a[i2] ) == occurence( a, l, i2, a[i2] ) + occurence( a, i2, h, a[i2] );
   a[i2] = a[i1];
   a[i1] = tmp;
 
