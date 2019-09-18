@@ -143,14 +143,16 @@ unsigned int occurence( value_type* a, unsigned int l, unsigned int h, value_typ
   @
   @ ensures \at( a[i1], Post ) == \at( a[i2], Pre );
   @ ensures \at( a[i2], Post ) == \at( a[i1], Pre );
-  @ ensures permutation{ Pre, Post }( a, l, h );
+  @ //ensures permutation{ Pre, Post }( a, l, h );
 */
 void swap( value_type* a, unsigned int l, unsigned int h, unsigned int i1, unsigned int i2 ){
 
   value_type tmp = a[i2];
-  /*@ghost occurence_split_proof( a, l, h, a[i2], i2 ); */
-  //@assert A1: occurence( a, l, i2, a[i2] ) == occurence( a, l, i2, a[i2] ) + occurence( a, i2, h, a[i2] );
-  a[i2] = a[i1];
+  // ghost call is like instantiation of quantifier / SMT triggering
+  /*@ ghost occurence_split_proof( a, l, h, a[i2], i2 ); */
+  //@assert A1: occurence( a, l, h, a[i2] ) == occurence( a, l, i2, a[i2] ) + occurence( a, i2, h, a[i2] );
+  //@assert A2: occurence( a, l, h, a[i2] ) == occurence( a, l, i2, a[i2] ) + 1 + occurence( a, i2+1, h, a[i2] );
+  a[i2] = a[i1];  
   a[i1] = tmp;
 
 }
